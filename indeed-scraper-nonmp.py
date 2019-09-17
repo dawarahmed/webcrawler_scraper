@@ -70,18 +70,6 @@ def crawling(new_queue):
     return cur_jobs
 
 
-def crawling_mp(new_queue):
-
-    chunks = [cur_queue[i::5] for i in range(5)]
-
-    pool = Pool(5)
-
-    result = pool.map(crawling, chunks)
-    result = [ent for sublist in result for ent in sublist]
-
-    return result
-
-
 if __name__ == '__main__':
 
     start_time = time.time()
@@ -89,12 +77,8 @@ if __name__ == '__main__':
     cur_crawled = create_data_files()
     cur_queue = set_up_queue(cur_crawled)
 
-    jobs = crawling_mp(cur_queue)
+    jobs = crawling(cur_queue)
 
     write_file("jobs.txt", jobs)
 
     print("--- %s seconds ---" % (time.time() - start_time))
-
-
-
-
